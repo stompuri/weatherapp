@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  weatherapp_backend:
+    container_name: weatherapp_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/weatherapp_backend'
+      - '/usr/src/weatherapp_backend/node_modules'
+    ports:
+      - '9000:9000'
+    environment:
+      - NODE_ENV=development
+
+  weatherapp_frontend:
+    container_name: weatherapp_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/weatherapp_frontend'
+      - '/usr/src/weatherapp_frontend/node_modules'
+    ports:
+      - '8000:8000'
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - weatherapp_backend
