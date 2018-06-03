@@ -5,9 +5,11 @@ import ReactDOM from 'react-dom';
 
 const baseURL = process.env.ENDPOINT;
 
-const getWeatherFromApi = async () => {
+const getWeatherFromApi = async (lat, lon) => {
   try {
-    const response = await fetch(`${baseURL}/weather`);
+    const uri = (lat && lon) ? `${baseURL}/weather?lat=${lat}&lon=${lon}` :
+                               `${baseURL}/weather`;
+    const response = await fetch(uri);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -16,9 +18,11 @@ const getWeatherFromApi = async () => {
   return {};
 };
 
-const getForecastFromApi = async () => {
+const getForecastFromApi = async (lat, lon) => {
   try {
-    const response = await fetch(`${baseURL}/forecast`);
+    const uri = (lat && lon) ? `${baseURL}/forecast?lat=${lat}&lon=${lon}` :
+                               `${baseURL}/forecast`;
+    const response = await fetch(uri);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -34,20 +38,55 @@ class Weather extends React.Component {
     this.state = {
       icon: '',
       list: [],
+      latitude: '',
+      longitude: '',
     };
   }
 
+  async updateState(location) {
+    if (location) {
+      const lat = Number((location.coords.latitude).toFixed(3));
+      const lon = Number((location.coords.longitude).toFixed(3));
+      const weather = await getWeatherFromApi(lat, lon);
+      const forecast = await getForecastFromApi(lat, lon);
+      this.setState({ icon: weather.icon.slice(0, -1),
+                      list: forecast.list,
+                      latitude: lat,
+                      longitude: lon });
+    } else {
+      const weather = await getWeatherFromApi();
+      const forecast = await getForecastFromApi();
+      this.setState({ icon: weather.icon.slice(0, -1),
+                      list: forecast.list });
+    }
+  }
+
   async componentWillMount() {
-    const weather = await getWeatherFromApi();
-    const forecast = await getForecastFromApi();
-    this.setState({ icon: weather.icon.slice(0, -1), list: forecast.list });
+    const _this = this;
+    if (!navigator.geolocation){
+      console.log("Geolocation is not supported by browser");
+      _this.updateState();
+    }
+
+    function success(location) {
+      console.log("Location accruired!");
+      _this.updateState(location);
+    }
+
+    function error() {
+      console.log("Unable to retrieve your location");
+      _this.updateState();
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error);
   }
 
   render() {
-    const { icon, list } = this.state;
+    const { icon, list, latitude, longitude } = this.state;
     return (
       <div className="container">
         <h2>Todays weather ({new Date().toDateString()})</h2>
+        { latitude && <h3>Latitude: {latitude} Longitude: {longitude}</h3> }
         <div className="icon">
           { icon && <img src={`/img/${icon}.svg`} alt="icon" /> }
         </div>
