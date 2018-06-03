@@ -12,3 +12,17 @@ body{
   width: 30vw;
   height: 30vw;
 }
+
+.forecast .icon {
+  width: 5vw;
+  height: 5vw;
+}
+
+.day {
+  float: left;
+  padding: 5px;
+}
+
+.date {
+  font-size: 10px;
+}
