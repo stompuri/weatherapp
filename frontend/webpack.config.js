@@ -1,10 +1,14 @@
 const webpack = require('webpack');
-
+const path = require('path');
 const TransferWebpackPlugin = require('transfer-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: [
+    'babel-polyfill',
+    './src/index.jsx',
+    './src/app.jsx'
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
@@ -16,8 +20,8 @@ module.exports = {
   },
   devtool: 'eval',
   output: {
-    filename: 'index.js',
-    publicPath: '/',
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'app.js'
   },
   module: {
     rules: [
@@ -26,18 +30,20 @@ module.exports = {
         exclude: /node_modules/,
         use: [{
           loader: 'babel-loader',
-          options: { presets: ['react', 'es2016'] },
         }],
-      },
+      }
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: 'src/public/index.html' }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new TransferWebpackPlugin([
-      { from: 'src/public' },
+      { from: 'src/public/' },
     ], '.'),
+    new HtmlWebpackPlugin({
+      template: "./src/public/index.html",
+      filename: "./index.html"
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         ENDPOINT: JSON.stringify(process.env.ENDPOINT || 'http://0.0.0.0:9000/api'),

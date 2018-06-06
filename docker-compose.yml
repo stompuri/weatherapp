@@ -25,6 +25,6 @@ services:
     ports:
       - '8000:8000'
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     depends_on:
       - weatherapp_backend

@@ -1,16 +1,19 @@
 # base image
-FROM node:10.2.1
+FROM smebberson/alpine-nginx-nodejs
 
 # create & change to work directory
-RUN mkdir -p /usr/src/weather_frontend
-WORKDIR /usr/src/weather_frontend
+RUN mkdir -p /usr/app/weather_frontend
+WORKDIR /usr/app/weather_frontend
 
 # copy package.json & install dependencies
-COPY package.json /usr/src/weather_frontend/package.json
-RUN /usr/local/bin/npm install
+COPY package.json /usr/app/weather_frontend/package.json
+RUN npm install
 
 # copy rest of the files
-COPY . /usr/src/weather_frontend
+COPY . /usr/app/weather_frontend
 
-# run frontend
+# build frontend
 CMD /usr/local/bin/npm start
+
+# copy files to nginx
+ADD dist/. /usr/share/nginx/html
