@@ -1,21 +1,21 @@
-import React from 'react';
-import { mount, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-15.4'
-const Enzyme = require('enzyme');
-Enzyme.configure({ adapter: new Adapter() })
 import Weather from '../src/app.jsx';
+import React from 'react';
+import Adapter from 'enzyme-adapter-react-15.4';
+import { shallow } from 'enzyme';
 
+const Enzyme = require('enzyme');
 const assert = require('assert');
 
-describe("Test frontend functions", function() {
-  it("updateState", async function() {
-    var location = {
-      "coords": {
-        "latitude": 65,
-        "longitude": 20
-      }
+Enzyme.configure({ adapter: new Adapter() });
+
+describe('Test frontend functions', function () {
+  it('updateState', async function () {
+    const location = {
+      coords: {
+        latitude: 65,
+        longitude: 20,
+      },
     };
-    //const weather = new Weather();
     const wrapper = shallow(<Weather />);
     const instance = wrapper.instance();
     await instance.updateState(location);

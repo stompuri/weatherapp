@@ -1,5 +1,9 @@
 {
   "parser": "babel-eslint",
+  "ecmaFeatures": {
+    "jsx": true,
+    "modules": true
+  },
   "extends": "airbnb",
   "env": {
     "es6": true,
@@ -7,10 +11,20 @@
   },
   "rules": {
     "semi": ["error", "always"],
-    "comma-dangle": ["error", "always-multiline"]
+    "comma-dangle": ["error", "always-multiline"],
+    'no-console': 0,
+    'no-debugger': 0
   },
   "globals": {
     "fetch": false,
     "document": true
-  }
+  },
+  "overrides": [
+    {
+      "files": [ "src/*.js", "tests/*.js" ],
+      "rules": {
+        "quotes": [ 2, "single" ]
+      }
+    }
+  ]
 }

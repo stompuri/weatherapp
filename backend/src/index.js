@@ -23,8 +23,9 @@ const fetchWeatherByCoord = async (lat, lon) => {
 };
 
 const fetchWeather = async (city) => {
-  if (!city)
+  if (!city) {
     city = process.env.TARGET_CITY || 'Helsinki,fi';
+  }
   const response = await fetch(`${MAP_URI}/weather?q=${city}&appid=${APP_ID}&`);
   return response ? response.json() : {};
 };
@@ -35,8 +36,9 @@ const fetchForecastByCoord = async (lat, lon) => {
 };
 
 const fetchForecast = async (city) => {
-  if (!city)
+  if (!city) {
     city = process.env.TARGET_CITY || 'Helsinki,fi';
+  }
   const response = await fetch(`${MAP_URI}/forecast?q=${city}&appid=${APP_ID}&`);
   return response ? response.json() : {};
 };
@@ -53,14 +55,14 @@ router.get('/api/weather', async ctx => {
 });
 
 router.get('/api/forecast', async ctx => {
-  var forecastData;
+  var forecastData = {};
   if (ctx.request.query.lat && ctx.request.query.lon) {
     forecastData = await fetchForecastByCoord(ctx.request.query.lat, ctx.request.query.lon);
   } else {
     forecastData = await fetchForecast(ctx.request.query.city);
   }
   ctx.type = 'application/json; charset=utf-8';
-  ctx.body = forecastData ? forecastData : {};
+  ctx.body = forecastData;
 });
 
 app.use(router.routes());
@@ -69,7 +71,7 @@ app.use(router.allowedMethods());
 const server = app.listen(PORT);
 console.log(`App listening on port ${PORT}`);
 
-function stop() {
+function stop () {
   server.close();
 }
 

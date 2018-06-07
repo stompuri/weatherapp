@@ -7,7 +7,7 @@ module.exports = {
   entry: [
     'babel-polyfill',
     './src/index.jsx',
-    './src/app.jsx'
+    './src/app.jsx',
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -21,7 +21,7 @@ module.exports = {
   devtool: 'eval',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'app.js'
+    filename: 'app.js',
   },
   module: {
     rules: [
@@ -31,7 +31,7 @@ module.exports = {
         use: [{
           loader: 'babel-loader',
         }],
-      }
+      },
     ],
   },
   plugins: [
@@ -41,8 +41,8 @@ module.exports = {
       { from: 'src/public/' },
     ], '.'),
     new HtmlWebpackPlugin({
-      template: "./src/public/index.html",
-      filename: "./index.html"
+      template: './src/public/index.html',
+      filename: './index.html',
     }),
     new webpack.DefinePlugin({
       'process.env': {

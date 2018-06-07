@@ -1,8 +1,10 @@
-var nodeExternals = require('webpack-node-externals');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  target: 'node', // webpack should emit node.js compatible code
-  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder from bundling
+  // webpack should emit node.js compatible code
+  target: 'node',
+  // in order to ignore all modules in node_modules folder from bundling
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
@@ -12,7 +14,7 @@ module.exports = {
           loader: 'babel-loader',
           options: { presets: ['react', 'es2016'] },
         }],
-      }
+      },
     ],
   },
 };

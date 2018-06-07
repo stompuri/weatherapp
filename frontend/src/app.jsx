@@ -1,12 +1,10 @@
-/* eslint no-console: ["error", { allow: ["warn", "error"] }] */
-
+/* global navigator */
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 const baseURL = process.env.ENDPOINT;
 
-var getWeatherFromApi = async (lat, lon) => {
-  if (typeof fetch === "function") {
+const getWeatherFromApi = async (lat, lon) => {
+  if (typeof fetch === 'function') {
     try {
       const uri = (lat && lon) ? encodeURI(`${baseURL}/weather?lat=${lat}&lon=${lon}`) :
                                  encodeURI(`${baseURL}/weather`);
@@ -20,7 +18,7 @@ var getWeatherFromApi = async (lat, lon) => {
 };
 
 const getForecastFromApi = async (lat, lon) => {
-  if (typeof fetch === "function") {
+  if (typeof fetch === 'function') {
     try {
       const uri = (lat && lon) ? encodeURI(`${baseURL}/forecast?lat=${lat}&lon=${lon}`) :
                                  encodeURI(`${baseURL}/forecast`);
@@ -46,6 +44,28 @@ class Weather extends React.Component {
     };
   }
 
+  async componentWillMount() {
+    const that = this;
+    if (!navigator.geolocation) {
+      console.log('Geolocation is not supported by browser');
+      that.updateState();
+    }
+
+    function success(location) {
+      console.log('Location accruired!');
+      that.updateState(location);
+    }
+
+    function error() {
+      console.log('Unable to retrieve your location');
+      that.updateState();
+    }
+
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    }
+  }
+
   async updateState(location) {
     if (location) {
       const lat = Number((location.coords.latitude).toFixed(3));
@@ -54,45 +74,24 @@ class Weather extends React.Component {
         const weather = await getWeatherFromApi(lat, lon);
         const forecast = await getForecastFromApi(lat, lon);
         this.setState({ icon: weather.icon.slice(0, -1),
-                        list: forecast.list,
-                        latitude: lat,
-                        longitude: lon });
+          list: forecast.list,
+          latitude: lat,
+          longitude: lon,
+        });
       } catch (e) {
-        console.error("Failed to fetch weather data! Setting location...");
-        this.setState({ latitude: lat,
-                        longitude: lon });
+        console.error('Failed to fetch weather data! Setting location...');
+        this.setState({ latitude: lat, longitude: lon });
       }
     } else {
       try {
         const weather = await getWeatherFromApi();
         const forecast = await getForecastFromApi();
-        this.setState({ icon: weather.icon.slice(0, -1),
-                        list: forecast.list });
+        this.setState({ icon: weather.icon.slice(0, -1), list: forecast.list });
       } catch (e) {
-        console.error("Failed to fetch weather data!");
+        console.error('Failed to fetch weather data!');
       }
     }
     return this.state;
-  }
-
-  async componentWillMount() {
-    const _this = this;
-    if (!navigator.geolocation){
-      console.log("Geolocation is not supported by browser");
-      _this.updateState();
-    }
-
-    function success(location) {
-      console.log("Location accruired!");
-      _this.updateState(location);
-    }
-
-    function error() {
-      console.log("Unable to retrieve your location");
-      _this.updateState();
-    }
-
-    navigator.geolocation && navigator.geolocation.getCurrentPosition(success, error);
   }
 
   render() {

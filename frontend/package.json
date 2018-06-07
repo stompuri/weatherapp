@@ -12,7 +12,7 @@
     "start": "ENDPOINT=https://weatherapp-backend.appspot.com/api node_modules/.bin/webpack --config webpack.config.js",
     "start-dev": "node_modules/.bin/webpack-dev-server --config webpack.config.js --progress --inline --colors",
     "build": "node_modules/.bin/webpack --config webpack.config.js",
-    "lint": "node_modules/.bin/eslint --ext .js --ext .jsx .",
+    "lint": "node_modules/.bin/eslint --ext .js --ext .jsx --ignore-path .eslintignore .",
     "test": "./node_modules/.bin/mocha-webpack --require tests/setup.js --webpack-config webpack.config.test.js tests/*-test.js"
   },
   "dependencies": {
