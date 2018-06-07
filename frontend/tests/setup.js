@@ -1,4 +1,5 @@
 /* global window */
+// Mock browser:
 // Set up JSDOM for our headless browser
 const jsdom = require('jsdom');
 

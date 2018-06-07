@@ -5,13 +5,12 @@
   "author": "Marko Klemetti <marko.klemetti@gmail.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "DEBUG=weathermap node src/index.js",
     "dev": "DEBUG=weathermap ./node_modules/.bin/nodemon src/index.js",
     "lint": "eslint src/*.js",
     "test": "mocha tests"
   },
   "dependencies": {
-    "debug": "^2.6.3",
     "kcors": "^2.2.1",
     "koa": "^2.2.0",
     "koa-json": "^2.0.2",
@@ -19,6 +18,7 @@
     "node-fetch": "^1.6.3"
   },
   "devDependencies": {
+    "debug": "^2.6.3",
     "eslint": "^3.4.0",
     "babel-eslint": "^7.1.1",
     "eslint-config-standard": "^10.2.1",
@@ -26,6 +26,7 @@
     "eslint-plugin-node": "^5.0.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "nodemon": "^1.8.1"
+    "nodemon": "^1.8.1",
+    "mocha": "^5.2.0"
   }
 }

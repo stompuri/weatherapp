@@ -8,11 +8,27 @@ body{
   align-items: center;
 }
 
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.description {
+  width: 30vw;
+  text-align: center;
+  padding-bottom: 10px;
+  font-style: italic;
+}
+
 .icon {
   width: 30vw;
   height: 30vw;
 }
 
+.forecat {
+  margin-top: -50px;
+}
 .forecast .icon {
   width: 5vw;
   height: 5vw;
@@ -24,5 +40,15 @@ body{
 }
 
 .date {
+  font-size: 10px;
+  padding-bottom: 7px;
+}
+
+.temp-char {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.temp {
   font-size: 10px;
 }

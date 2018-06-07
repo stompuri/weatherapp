@@ -2,7 +2,7 @@
 
 // const Promise = require('promise');
 // const async = require('async');
-// const debug = require('debug')('weathermap');
+const debug = require('debug')('weathermap');
 const Koa = require('koa');
 const Router = require('koa-router');
 const fetch = require('node-fetch');
@@ -44,14 +44,14 @@ const fetchForecast = async (city) => {
 };
 
 router.get('/api/weather', async ctx => {
-  var weatherData;
+  var weatherData = {};
   if (ctx.request.query.lat && ctx.request.query.lon) {
     weatherData = await fetchWeatherByCoord(ctx.request.query.lat, ctx.request.query.lon);
   } else {
     weatherData = await fetchWeather(ctx.request.query.city);
   }
   ctx.type = 'application/json; charset=utf-8';
-  ctx.body = weatherData.weather ? weatherData.weather[0] : {};
+  ctx.body = weatherData;
 });
 
 router.get('/api/forecast', async ctx => {
@@ -69,7 +69,7 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 const server = app.listen(PORT);
-console.log(`App listening on port ${PORT}`);
+debug(`App listening on port ${PORT}`);
 
 function stop () {
   server.close();

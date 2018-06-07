@@ -10,31 +10,29 @@ describe('Test server', () => {
   });
 
   it('GET weather', done => {
-    console.log("URL = " + `http://localhost:${PORT}/api/weather`);
     http.get(`http://localhost:${PORT}/api/weather`, res => {
       assert.equal(200, res.statusCode);
       res.setEncoding('utf8');
       res.on('data', function (body) {
         body = JSON.parse(body);
-        assert.ok(body.hasOwnProperty('id'), 'body.id missing!');
-        assert.ok(body.hasOwnProperty('main'), 'body.id missing!');
-        assert.ok(body.hasOwnProperty('description'), 'body.id missing!');
-        assert.ok(body.hasOwnProperty('icon'), 'body.id missing!');
+        assert.ok(body.hasOwnProperty('weather'), 'body.weather missing!');
+        assert.ok(body.weather[0].hasOwnProperty('id'), 'body.weather[0].id missing!');
+        assert.ok(body.weather[0].hasOwnProperty('main'), 'body.weather[0].main missing!');
+        assert.ok(body.weather[0].hasOwnProperty('description'), 'body.weather[0].description missing!');
+        assert.ok(body.weather[0].hasOwnProperty('icon'), 'body.weather[0].icon missing!');
       });
       done();
     });
   });
 
   it('GET forecast', done => {
-    console.log("URL = " + `http://localhost:${PORT}/api/forecast`);
-    http.get(`http://localhost:${PORT}/api/weather`, (err, res, body) => {
+    http.get(`http://localhost:${PORT}/api/forecast`, res => {
       assert.equal(200, res.statusCode);
       res.setEncoding('utf8');
       res.on('data', function (body) {
         body = JSON.parse(body);
         assert.ok(body.hasOwnProperty('list'), 'body.list missing!');
       });
-      done();
       done();
     });
   });
