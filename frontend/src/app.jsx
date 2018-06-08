@@ -97,11 +97,13 @@ class Weather extends React.Component {
         const weather = today.weather[0];
         const forecast = await getForecastFromApi();
         this.setState({
-          name: today.name,
+          name: `<use defaul> ${today.name}`,
           desc: weather.description,
           icon: weather.icon.slice(0, -1),
           temp: today.main.temp - 273.15,
           list: forecast.list,
+          latitude: 'N/A',
+          longitude: 'N/A',
         });
       } catch (e) {
         console.error('Failed to fetch weather data!');
