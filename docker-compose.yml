@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - '.:/usr/src/weatherapp_backend'
+      - '/usr/src/weatherapp_backend/src'
       - '/usr/src/weatherapp_backend/node_modules'
     ports:
       - '9000:9000'
@@ -21,6 +22,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - '.:/usr/src/weatherapp_frontend'
+      - '/usr/src/weatherapp_frontend/src'
       - '/usr/src/weatherapp_frontend/node_modules'
     ports:
       - '8000:8000'
