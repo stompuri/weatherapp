@@ -16,4 +16,4 @@ ADD . ./
 EXPOSE 9000
 
 # 5. run backend
-CMD /usr/local/bin/node src/index.js
+CMD DEBUG=weathermap /usr/local/bin/node src/index.js

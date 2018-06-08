@@ -12,6 +12,8 @@ body{
   position: fixed;
   top: 0;
   left: 0;
+  overflow: auto;
+  height: 100%;
 }
 
 .description {
