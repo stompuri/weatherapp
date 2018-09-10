@@ -6,8 +6,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: [
     'babel-polyfill',
-    './src/index.jsx',
-    './src/app.jsx',
+    './src/index.js',
+    './src/components/Weather.js',
   ],
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -21,7 +21,7 @@ module.exports = {
   devtool: 'eval',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'app.js',
+    filename: 'Weather.js',
   },
   module: {
     rules: [
